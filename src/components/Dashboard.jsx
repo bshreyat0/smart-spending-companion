@@ -22,7 +22,7 @@ function CategoryCard({ name, amount }) {
 }
 
 // ── Transaction Item ─────────────────────────────────────
-function TxItem({ tx }) {
+function TxItem({ tx, onEdit, onDelete })  {
   const meta = categoryMeta[tx.category];
   return (
     <div className="tx-item">
@@ -37,6 +37,10 @@ function TxItem({ tx }) {
       <div style={{ textAlign: 'right' }}>
         <div className="tx-amount">−₹{tx.amount.toLocaleString()}</div>
         {tx.tax > 0 && <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Tax: ₹{tx.tax}</div>}
+      </div>
+      <div>
+       <button onClick={() => onEdit(tx)}>Edit</button>
+       <button onClick={() => onDelete(tx)}>Delete</button>
       </div>
     </div>
   );
@@ -308,6 +312,45 @@ function AddTransaction({ onAdd }) {
 // ── Main Dashboard ───────────────────────────────────────
 export default function Dashboard() {
   const [transactions, setTransactions] = useState(initialTransactions);
+  const handleEdit = (tx) => {
+  const newDescription = window.prompt(
+    'Enter new description:',
+    tx.description
+  );
+
+  if (newDescription === null || newDescription.trim() === '') return;
+
+  const newAmount = window.prompt(
+    'Enter new amount:',
+    tx.amount
+  );
+
+  if (newAmount === null || newAmount.trim() === '') return;
+
+  setTransactions(prev =>
+    prev.map(item =>
+      item.id === tx.id
+        ? {
+            ...item,
+            description: newDescription.trim(),
+            amount: Number(newAmount)
+          }
+        : item
+    )
+  );
+};
+
+const handleDelete = (tx) => {
+  const confirmed = window.confirm(
+    `Delete "${tx.description}"?`
+  );
+
+  if (!confirmed) return;
+
+  setTransactions(prev =>
+    prev.filter(item => item.id !== tx.id)
+  );
+};
   const [chartType, setChartType] = useState('pie'); // 'pie' | 'bar'
   const [showAll, setShowAll] = useState(false);
 
@@ -472,7 +515,12 @@ export default function Dashboard() {
                 </button>
               </div>
               <div className="tx-list">
-                {displayedTx.map(tx => <TxItem key={tx.id} tx={tx} />)}
+                {displayedTx.map(tx => <TxItem
+  key={tx.id}
+  tx={tx}
+  onEdit={handleEdit}
+  onDelete={handleDelete}
+/>)}
               </div>
             </div>
           </div>
