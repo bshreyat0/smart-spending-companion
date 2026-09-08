@@ -33,6 +33,7 @@ Full-stack travel planning application built with Node.js, Express, SQLite (`bet
 - Printable trip summary page
 - PDF export via `pdfkit`
 - Optional weather widget (set `OPENWEATHER_API_KEY`)
+- Jenkins CI/CD testing
 
 ## Optional environment variables
 
