@@ -2,16 +2,21 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                bat 'npm install'
+            }
+        }
+
         stage('Build') {
             steps {
-                echo 'Building Smart Spending Companion...'
+                bat 'npm run build'
             }
         }
 
@@ -30,7 +35,7 @@ pipeline {
 
     post {
         success {
-            echo 'Build and deployment successful!'
+            echo 'Build successful!'
         }
 
         failure {
