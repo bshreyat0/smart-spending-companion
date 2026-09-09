@@ -387,7 +387,7 @@ const handleDelete = (tx) => {
         {/* Header */}
         <div className="dashboard-header">
           <div>
-            <h1 className="dashboard-greeting">Good evening, Shreya 👋</h1>
+            <h1 className="dashboard-greeting">Good evening, Shreya,welcome back! 👋</h1>
             <div className="dashboard-date">Tuesday, 24 March 2026 · Your finances at a glance</div>
           </div>
           <div className="badge badge-blue">
