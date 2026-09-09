@@ -2,6 +2,21 @@
 // AI-based spending alerts, recommendations, and weekly summary
 import { useState } from 'react';
 import { insights, initialTransactions, categoryMeta, BUDGET_LIMIT } from '../data/mockData';
+const categorySummary = initialTransactions.reduce((summary, transaction) => {
+  if (!summary[transaction.category]) {
+    summary[transaction.category] = 0;
+  }
+
+  summary[transaction.category] += transaction.amount;
+
+  return summary;
+}, {});
+const categoryChartData = Object.entries(categorySummary).map(
+  ([category, amount]) => ({
+    category,
+    amount,
+  })
+);
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip
 } from 'recharts';
@@ -130,7 +145,40 @@ export default function Insights() {
                 ↩ Restore {dismissed.length} dismissed alert{dismissed.length > 1 ? 's' : ''}
               </button>
             )}
+             {/* Category Spending Summary */}
+<div style={{ marginTop: 28 }}>
+  <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 14 }}>
+    📊 Category Spending Summary
+  </h2>
 
+  {categoryChartData.map((item) => (
+    <div key={item.category} style={{ marginBottom: 12 }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontSize: 13,
+        marginBottom: 5
+      }}>
+        <span>{item.category}</span>
+        <span>₹{item.amount.toLocaleString()}</span>
+      </div>
+
+      <div style={{
+        height: 10,
+        background: 'var(--bg-card)',
+        borderRadius: 99,
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          height: '100%',
+          width: `${Math.min((item.amount / 6000) * 100, 100)}%`,
+          background: categoryMeta[item.category]?.color || '#6366f1',
+          borderRadius: 99
+        }} />
+      </div>
+    </div>
+  ))}
+</div>
             {/* Weekly Comparison */}
             <div style={{ marginTop: 28 }}>
               <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 14 }}>📅 Week-over-Week Comparison</h2>
