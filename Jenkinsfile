@@ -15,8 +15,10 @@ pipeline {
             steps {
                 echo 'Checking out source code...'
 
+                deleteDir()
+
                 bat '''
-                    git fetch origin develop
+                    git clone https://github.com/bshreyat0/smart-spending-companion.git .
                     git checkout %COMMIT_HASH%
                 '''
             }
