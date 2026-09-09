@@ -18,7 +18,7 @@ pipeline {
                 deleteDir()
 
                 bat '''
-                    git clone https://github.com/bshreyat0/smart-spending-companion.git .
+                    git clone --branch develop https://github.com/bshreyat0/smart-spending-companion.git .
                     git checkout %COMMIT_HASH%
                 '''
             }
