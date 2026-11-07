@@ -11,10 +11,10 @@ import './index.css';
 import './App.css';
 
 // Page transition wrapper
-function PageWrapper({ children }) {
+function PageWrapper({ children, page }) {
   return (
     <div
-      key={Math.random()}
+      key={page}
       style={{ animation: 'fadeUp 0.4s ease both' }}
     >
       {children}
@@ -70,9 +70,7 @@ export default function App() {
 
       {/* Page content */}
       <main style={{ position: 'relative', zIndex: 1, paddingTop: page === 'landing' ? 0 : 0 }}>
-        <PageWrapper>
-          {renderPage()}
-        </PageWrapper>
+        <PageWrapper page={page}>{renderPage()}</PageWrapper>
       </main>
 
       {/* Footer */}
@@ -93,3 +91,4 @@ export default function App() {
     </>
   );
 }
+

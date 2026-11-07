@@ -1,7 +1,7 @@
 // Insights Page
 // AI-based spending alerts, recommendations, and weekly summary
 import { useState } from 'react';
-import { insights, initialTransactions, categoryMeta, BUDGET_LIMIT } from '../data/mockData';
+import { insights, categoryMeta } from '../data/mockData';
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip
 } from 'recharts';
