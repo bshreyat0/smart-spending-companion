@@ -1,40 +1,46 @@
+
 pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo 'Checking out source code...'
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                bat 'npm ci'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building Smart Spending Companion...'
+                bat 'npm run build'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                bat 'npm run lint'
             }
         }
 
-        stage('Deploy') {
+        stage('Package') {
             steps {
-                echo 'Deploying Smart Spending Companion...'
+                archiveArtifacts artifacts: 'dist/**',
+                                 fingerprint: true
             }
         }
     }
 
     post {
         success {
-            echo 'Build and deployment successful!'
+            echo 'Application built successfully!'
         }
-
         failure {
-            echo 'Build failed!'
+            echo 'Build failed. Check Console Output.'
         }
     }
 }
